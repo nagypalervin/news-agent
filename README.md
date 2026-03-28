@@ -167,7 +167,7 @@ news-agent/
 - [x] HTML newsletter output
 - [x] Cron scheduling
 - [x] Docker support
-- [ ] Email delivery (SMTP)
+- [x] Email delivery (SMTP)
 - [ ] Teams / Slack webhook delivery
 - [ ] NewsAPI.org integration
 - [ ] Web dashboard (digest archive + config editor)
@@ -178,7 +178,7 @@ news-agent/
 
 ## Need a custom setup?
 
-This project is built by [Nagypál Ervin](https://nagypalervin.hu) — software engineer specializing in AI agent development for enterprise clients.
+This project is built by [Ervin Nagypál](https://nagypalervin.hu) — software engineer specializing in AI agent development for enterprise clients.
 
 If you need:
 - Custom topic configuration for your industry

@@ -105,13 +105,11 @@ output:
 # -----------------------------------------------------------------------------
 email:
   enabled: false
-  fromAddress: news@yourcompany.com
-  toAddresses:
-    - ceo@yourcompany.com
-    - cto@yourcompany.com
+  from_address: news@yourcompany.com
+  to_addresses:
+    - recipient@example.com
   subject: "AI Hírek — {date}"
-  smtpHost: smtp.office365.com
-  smtpPort: 587
-  useSsl: true
-  # username: set SMTP_USER environment variable
-  # password: set SMTP_PASSWORD environment variable
+  smtp_host: smtp.office365.com
+  smtp_port: 587
+  use_ssl: true
+  # Credentials: set SMTP_USER and SMTP_PASSWORD environment variables

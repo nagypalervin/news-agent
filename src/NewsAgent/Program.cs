@@ -33,7 +33,7 @@ try
             .ConfigureServices(services =>
             {
                 ConfigureServices(services, config);
-                services.AddSingleton<IDigestDelivery, EmailDelivery>();
+                RegisterDeliveries(services, config);
                 services.AddHostedService<DigestWorker>();
             });
 
@@ -59,19 +59,29 @@ static void ConfigureServices(IServiceCollection services, DigestConfig config)
     services.AddSingleton<INewsSummarizer, LlmSummarizer>();
 }
 
+static void RegisterDeliveries(IServiceCollection services, DigestConfig config)
+{
+    services.AddSingleton<IDigestDelivery, FileDelivery>();
+
+    if (config.Email is { Enabled: true })
+    {
+        services.AddSingleton<IDigestDelivery, EmailDelivery>();
+    }
+}
+
 static async Task RunOnceAsync(DigestConfig config)
 {
     var services = new ServiceCollection();
     services.AddLogging(b => b.AddSerilog());
     ConfigureServices(services, config);
-    services.AddSingleton<IDigestDelivery, FileDelivery>();
+    RegisterDeliveries(services, config);
 
     await using var sp = services.BuildServiceProvider();
 
     var collector = sp.GetRequiredService<INewsCollector>();
     var processor = sp.GetRequiredService<IArticleProcessor>();
     var summarizer = sp.GetRequiredService<INewsSummarizer>();
-    var delivery = sp.GetRequiredService<IDigestDelivery>();
+    var deliveries = sp.GetServices<IDigestDelivery>();
     var logger = sp.GetRequiredService<ILogger<Program>>();
 
     logger.LogInformation("Collecting articles...");
@@ -90,6 +100,17 @@ static async Task RunOnceAsync(DigestConfig config)
     logger.LogInformation("Summarizing with LLM...");
     var digest = await summarizer.SummarizeAsync(processed);
 
-    await delivery.DeliverAsync(digest);
+    foreach (var delivery in deliveries)
+    {
+        try
+        {
+            await delivery.DeliverAsync(digest);
+        }
+        catch (Exception ex) when (ex is not OperationCanceledException)
+        {
+            logger.LogError(ex, "Delivery failed: {DeliveryType}", delivery.GetType().Name);
+        }
+    }
+
     logger.LogInformation("Done!");
 }

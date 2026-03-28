@@ -18,7 +18,7 @@ public class DigestWorker(
     INewsCollector collector,
     IArticleProcessor processor,
     INewsSummarizer summarizer,
-    IDigestDelivery delivery,
+    IEnumerable<IDigestDelivery> deliveries,
     ILogger<DigestWorker> logger) : BackgroundService
 {
     /// <inheritdoc />
@@ -66,7 +66,18 @@ public class DigestWorker(
             }
 
             var digest = await summarizer.SummarizeAsync(processed, cancellationToken);
-            await delivery.DeliverAsync(digest, cancellationToken);
+
+            foreach (var delivery in deliveries)
+            {
+                try
+                {
+                    await delivery.DeliverAsync(digest, cancellationToken);
+                }
+                catch (Exception ex) when (ex is not OperationCanceledException)
+                {
+                    logger.LogError(ex, "Delivery failed: {DeliveryType}", delivery.GetType().Name);
+                }
+            }
 
             logger.LogInformation("Digest cycle completed successfully with {Count} articles", digest.ArticleCount);
         }

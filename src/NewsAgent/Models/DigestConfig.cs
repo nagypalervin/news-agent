@@ -152,18 +152,18 @@ public class EmailConfig
     public bool Enabled { get; set; }
 
     /// <summary>Recipient email addresses.</summary>
-    public List<string> To { get; set; } = [];
+    public List<string> ToAddresses { get; set; } = [];
 
     /// <summary>Sender email address.</summary>
-    public string? FromAddress { get; set; }
+    public string FromAddress { get; set; } = "noreply@localhost";
 
-    /// <summary>Email subject template.</summary>
-    public string Subject { get; set; } = "News Digest — {date}";
+    /// <summary>Email subject template. Use {date} for date substitution.</summary>
+    public string Subject { get; set; } = "AI Hírek — {date}";
 
-    /// <summary>SMTP server hostname.</summary>
+    /// <summary>SMTP server hostname (can be overridden by SMTP_HOST env var).</summary>
     public string SmtpHost { get; set; } = string.Empty;
 
-    /// <summary>SMTP server port.</summary>
+    /// <summary>SMTP server port (can be overridden by SMTP_PORT env var).</summary>
     public int SmtpPort { get; set; } = 587;
 
     /// <summary>Whether to use SSL/TLS.</summary>
