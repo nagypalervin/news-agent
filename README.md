@@ -178,7 +178,7 @@ news-agent/
 
 ## Need a custom setup?
 
-This project is built by [Nagypál Ervin](https://nagypalervin.hu) — CEO of [TeamCollab Solutions](https://teamcollab.hu), a software agency specializing in AI agent development for enterprise clients.
+This project is built by [Nagypál Ervin](https://nagypalervin.hu) — software engineer specializing in AI agent development for enterprise clients.
 
 If you need:
 - Custom topic configuration for your industry
