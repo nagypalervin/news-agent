@@ -1,0 +1,10 @@
+**/bin/
+**/obj/
+output/
+.env
+config.yaml
+.git/
+.github/
+.vscode/
+*.md
+!README.md

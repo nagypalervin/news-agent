@@ -1,0 +1,117 @@
+# =============================================================================
+# News Agent — Example Configuration
+# =============================================================================
+# Copy this file to config.yaml and fill in your values.
+# Secrets (API keys, passwords) should go in .env file or environment variables.
+# See .env.example for the list of supported environment variables.
+# =============================================================================
+
+# Cron schedule for digest generation
+# Examples: "0 7 * * 1-5" = weekdays 7:00 AM | "0 8 * * *" = daily 8:00 AM
+schedule: "0 7 * * 1-5"
+
+# Timezone for schedule (IANA format)
+timezone: "Europe/Budapest"
+
+# Language for the generated digest: hu, en, de
+language: hu
+
+# Maximum age (in hours) of articles to include
+maxArticleAgeHours: 36
+
+# Minimum articles required (if fewer found, time window expands automatically)
+minArticlesRequired: 5
+
+# Maximum articles to send to LLM for summarization
+maxArticlesForSummary: 20
+
+# Deduplication similarity threshold (0.0-1.0, higher = stricter)
+dedupSimilarityThreshold: 0.7
+
+# System prompt file for digest generation
+system_prompt_file: "prompts/ai-news-digest-system.md"
+
+# -----------------------------------------------------------------------------
+# RSS Feeds
+# -----------------------------------------------------------------------------
+rssFeeds:
+  # International AI/tech sources
+  - url: "https://techcrunch.com/category/artificial-intelligence/feed/"
+    name: "TechCrunch AI"
+  - url: "https://www.theverge.com/rss/ai-artificial-intelligence/index.xml"
+    name: "The Verge AI"
+  - url: "https://venturebeat.com/category/ai/feed/"
+    name: "VentureBeat AI"
+  - url: "https://feeds.arstechnica.com/arstechnica/technology-lab"
+    name: "Ars Technica"
+  # Official company blogs
+  - url: "https://openai.com/blog/rss.xml"
+    name: "OpenAI Blog"
+  - url: "https://blog.google/technology/ai/rss/"
+    name: "Google AI Blog"
+  - url: "https://www.anthropic.com/rss.xml"
+    name: "Anthropic Blog"
+  # Hungarian tech portals
+  - url: "https://hwsw.hu/rss"
+    name: "HWSW"
+  - url: "https://telex.hu/rss/tech"
+    name: "Telex Tech"
+
+# -----------------------------------------------------------------------------
+# NewsAPI.org (optional — broadens coverage)
+# -----------------------------------------------------------------------------
+newsApi:
+  enabled: false
+  queries:
+    - "artificial intelligence"
+    - "OpenAI OR Anthropic OR Google AI"
+    - "AI model launch"
+  language: "en"
+  sortBy: "publishedAt"
+  # API key: set NEWS_API_KEY environment variable
+
+# -----------------------------------------------------------------------------
+# LLM Configuration
+# -----------------------------------------------------------------------------
+# Supported providers: "azure_openai", "openai"
+
+# Azure OpenAI (recommended for enterprise)
+llm:
+  provider: azure_openai
+  deployment: gpt-5.4-mini
+  temperature: 0.4
+  maxTokens: 4000
+  # endpoint: set AZURE_OPENAI_ENDPOINT environment variable
+  # apiKey:   set AZURE_OPENAI_API_KEY environment variable
+
+# OpenAI (alternative — uncomment and replace the block above):
+# llm:
+#   provider: openai
+#   model: gpt-4o-mini
+#   temperature: 0.4
+#   maxTokens: 4000
+#   # apiKey: set OPENAI_API_KEY environment variable
+
+# -----------------------------------------------------------------------------
+# Output
+# -----------------------------------------------------------------------------
+output:
+  # Save digest as HTML file to this directory
+  saveToFile: true
+  filePath: "output/"
+
+# -----------------------------------------------------------------------------
+# Email Delivery (optional)
+# -----------------------------------------------------------------------------
+email:
+  enabled: false
+  fromAddress: news@yourcompany.com
+  toAddresses:
+    - ceo@yourcompany.com
+    - cto@yourcompany.com
+  subject: "AI Hírek — {date}"
+  smtpHost: smtp.office365.com
+  smtpPort: 587
+  useSsl: true
+  # username: set SMTP_USER environment variable
+  # password: set SMTP_PASSWORD environment variable

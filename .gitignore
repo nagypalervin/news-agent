@@ -416,3 +416,8 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
+
+# Local config with secrets
+config.yaml
+output/
+.DS_Store
