@@ -167,7 +167,7 @@ news-agent/
 - [x] Cron scheduling
 - [x] Docker support
 - [x] Email delivery (SMTP)
-- [ ] Teams / Slack webhook delivery
+- [x] Teams / Slack webhook delivery
 - [ ] Web dashboard (digest archive + config editor)
 - [ ] Multi-tenant support (multiple topics per instance)
 - [ ] Relevance scoring with LLM
