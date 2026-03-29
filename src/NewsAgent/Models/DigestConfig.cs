@@ -29,6 +29,9 @@ public class DigestConfig
     /// <summary>Email delivery configuration.</summary>
     public EmailConfig? Email { get; set; }
 
+    /// <summary>Webhook delivery configuration (Teams, Slack).</summary>
+    public WebhooksConfig? Webhooks { get; set; }
+
     /// <summary>Path to the system prompt file for LLM summarization.</summary>
     public string? SystemPromptFile { get; set; }
 }
@@ -168,4 +171,28 @@ public class EmailConfig
 
     /// <summary>Whether to use SSL/TLS.</summary>
     public bool UseSsl { get; set; } = true;
+}
+
+/// <summary>
+/// Webhook delivery configuration.
+/// </summary>
+public class WebhooksConfig
+{
+    /// <summary>Microsoft Teams webhook configuration.</summary>
+    public WebhookEndpointConfig? Teams { get; set; }
+
+    /// <summary>Slack webhook configuration.</summary>
+    public WebhookEndpointConfig? Slack { get; set; }
+}
+
+/// <summary>
+/// Configuration for a single webhook endpoint.
+/// </summary>
+public class WebhookEndpointConfig
+{
+    /// <summary>Whether this webhook is enabled.</summary>
+    public bool Enabled { get; set; }
+
+    /// <summary>Webhook URL.</summary>
+    public string Url { get; set; } = string.Empty;
 }

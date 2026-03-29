@@ -58,19 +58,6 @@ rssFeeds:
     name: "Telex Tech"
 
 # -----------------------------------------------------------------------------
-# NewsAPI.org (optional — broadens coverage)
-# -----------------------------------------------------------------------------
-newsApi:
-  enabled: false
-  queries:
-    - "artificial intelligence"
-    - "OpenAI OR Anthropic OR Google AI"
-    - "AI model launch"
-  language: "en"
-  sortBy: "publishedAt"
-  # API key: set NEWS_API_KEY environment variable
-
-# -----------------------------------------------------------------------------
 # LLM Configuration
 # -----------------------------------------------------------------------------
 # Supported providers: "azure_openai", "openai"
@@ -78,7 +65,7 @@ newsApi:
 # Azure OpenAI (recommended for enterprise)
 llm:
   provider: azure_openai
-  deployment: gpt-5.4-mini
+  deployment: gpt-5.4
   temperature: 0.4
   maxTokens: 4000
   # endpoint: set AZURE_OPENAI_ENDPOINT environment variable
@@ -113,3 +100,14 @@ email:
   smtp_port: 587
   use_ssl: true
   # Credentials: set SMTP_USER and SMTP_PASSWORD environment variables
+
+# -----------------------------------------------------------------------------
+# Webhook Delivery (optional)
+# -----------------------------------------------------------------------------
+webhooks:
+  teams:
+    enabled: false
+    url: "https://outlook.office.com/webhook/your-webhook-url"
+  slack:
+    enabled: false
+    url: "https://hooks.slack.com/services/your/webhook/url"

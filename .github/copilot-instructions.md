@@ -6,7 +6,7 @@ It collects news from multiple sources (RSS, News API), summarizes them using an
 and delivers the digest via email on a configurable schedule.
 
 ## Architecture
-- **Collector**: Gathers news from RSS feeds, NewsAPI.org, and optional web scraping
+- **Collector**: Gathers news from RSS feeds and optional web scraping
 - **Processor**: Deduplicates articles, filters by relevance and date
 - **Summarizer**: Uses LLM (OpenAI / Azure OpenAI / Anthropic) to generate newsletter-style summaries
 - **Delivery**: Sends output via SMTP email, webhook, or file export

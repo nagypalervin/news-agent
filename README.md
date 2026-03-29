@@ -83,7 +83,6 @@ All settings live in `config.yaml`. Secrets (API keys, passwords) go in `.env`.
 | `AZURE_OPENAI_ENDPOINT` | Yes* | Azure OpenAI endpoint URL |
 | `AZURE_OPENAI_DEPLOYMENT` | Yes* | Azure OpenAI deployment name |
 | `OPENAI_API_KEY` | Yes* | OpenAI API key (if using `openai` provider) |
-| `NEWS_API_KEY` | No | NewsAPI.org key for broader coverage |
 
 \* Depending on chosen `llm.provider`
 
@@ -169,7 +168,6 @@ news-agent/
 - [x] Docker support
 - [x] Email delivery (SMTP)
 - [ ] Teams / Slack webhook delivery
-- [ ] NewsAPI.org integration
 - [ ] Web dashboard (digest archive + config editor)
 - [ ] Multi-tenant support (multiple topics per instance)
 - [ ] Relevance scoring with LLM

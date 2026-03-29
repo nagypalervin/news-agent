@@ -53,6 +53,7 @@ finally
 static void ConfigureServices(IServiceCollection services, DigestConfig config)
 {
     services.AddSingleton(Options.Create(config));
+    services.AddHttpClient();
 
     services.AddSingleton<INewsCollector, RssCollector>();
     services.AddSingleton<IArticleProcessor, ArticleProcessor>();
@@ -66,6 +67,16 @@ static void RegisterDeliveries(IServiceCollection services, DigestConfig config)
     if (config.Email is { Enabled: true })
     {
         services.AddSingleton<IDigestDelivery, EmailDelivery>();
+    }
+
+    if (config.Webhooks?.Teams is { Enabled: true })
+    {
+        services.AddSingleton<IDigestDelivery, TeamsWebhookDelivery>();
+    }
+
+    if (config.Webhooks?.Slack is { Enabled: true })
+    {
+        services.AddSingleton<IDigestDelivery, SlackWebhookDelivery>();
     }
 }
 
