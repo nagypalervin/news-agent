@@ -168,7 +168,7 @@ news-agent/
 - [x] Docker support
 - [x] Email delivery (SMTP)
 - [x] Teams / Slack webhook delivery
-- [ ] Web dashboard (digest archive + config editor)
+- [x] Web dashboard (digest archive + config editor)
 - [ ] Multi-tenant support (multiple topics per instance)
 - [ ] Relevance scoring with LLM
 

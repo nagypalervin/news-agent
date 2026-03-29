@@ -111,3 +111,12 @@ webhooks:
   slack:
     enabled: false
     url: "https://hooks.slack.com/services/your/webhook/url"
+
+# -----------------------------------------------------------------------------
+# Web Dashboard (optional)
+# -----------------------------------------------------------------------------
+# Browse digest archives via a simple web UI.
+# WARNING: No authentication — add a reverse proxy with auth for public exposure.
+dashboard:
+  enabled: false
+  port: 8080

@@ -12,7 +12,7 @@ COPY src/ src/
 COPY tests/ tests/
 RUN dotnet publish src/NewsAgent -c Release -o /app
 
-FROM mcr.microsoft.com/dotnet/runtime:10.0-alpine AS runtime
+FROM mcr.microsoft.com/dotnet/aspnet:10.0-alpine AS runtime
 WORKDIR /app
 
 RUN apk add --no-cache tzdata && mkdir -p /config /output

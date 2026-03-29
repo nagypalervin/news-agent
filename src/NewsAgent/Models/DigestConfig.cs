@@ -34,6 +34,9 @@ public class DigestConfig
 
     /// <summary>Path to the system prompt file for LLM summarization.</summary>
     public string? SystemPromptFile { get; set; }
+
+    /// <summary>Web dashboard configuration.</summary>
+    public DashboardConfig? Dashboard { get; set; }
 }
 
 /// <summary>
@@ -195,4 +198,16 @@ public class WebhookEndpointConfig
 
     /// <summary>Webhook URL.</summary>
     public string Url { get; set; } = string.Empty;
+}
+
+/// <summary>
+/// Web dashboard configuration.
+/// </summary>
+public class DashboardConfig
+{
+    /// <summary>Whether the dashboard is enabled.</summary>
+    public bool Enabled { get; set; }
+
+    /// <summary>Port to listen on.</summary>
+    public int Port { get; set; } = 8080;
 }

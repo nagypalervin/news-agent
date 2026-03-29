@@ -3,6 +3,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using NewsAgent.Collector;
+using NewsAgent.Dashboard;
 using NewsAgent.Delivery;
 using NewsAgent.Models;
 using NewsAgent.Processor;
@@ -19,6 +20,7 @@ public class DigestWorker(
     IArticleProcessor processor,
     INewsSummarizer summarizer,
     IEnumerable<IDigestDelivery> deliveries,
+    StatusTracker statusTracker,
     ILogger<DigestWorker> logger) : BackgroundService
 {
     /// <inheritdoc />
@@ -40,6 +42,7 @@ public class DigestWorker(
 
             var delay = nextRun.Value - now.UtcDateTime;
             logger.LogInformation("Next digest run at {NextRun} (in {Delay})", nextRun, delay);
+            statusTracker.SetNextRun(new DateTimeOffset(nextRun.Value, TimeSpan.Zero));
 
             await Task.Delay(delay, stoppingToken);
 
@@ -80,10 +83,12 @@ public class DigestWorker(
             }
 
             logger.LogInformation("Digest cycle completed successfully with {Count} articles", digest.ArticleCount);
+            statusTracker.RecordSuccess(digest.ArticleCount);
         }
         catch (Exception ex) when (ex is not OperationCanceledException)
         {
             logger.LogError(ex, "Digest cycle failed");
+            statusTracker.RecordError(ex.Message);
         }
     }
 }

@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Options;
 using NewsAgent.Collector;
 using NewsAgent.Configuration;
+using NewsAgent.Dashboard;
 using NewsAgent.Delivery;
 using NewsAgent.Models;
 using NewsAgent.Processor;
@@ -26,14 +27,32 @@ try
     {
         await RunOnceAsync(config);
     }
+    else if (config.Dashboard is { Enabled: true })
+    {
+        // Web host: dashboard + worker service running together
+        var builder = WebApplication.CreateBuilder(args);
+        builder.Host.UseSerilog();
+        builder.WebHost.UseUrls($"http://0.0.0.0:{config.Dashboard.Port}");
+
+        ConfigureServices(builder.Services, config);
+        RegisterDeliveries(builder.Services, config);
+        builder.Services.AddSingleton<StatusTracker>();
+        builder.Services.AddHostedService<DigestWorker>();
+
+        var app = builder.Build();
+        app.MapDashboardEndpoints();
+        await app.RunAsync();
+    }
     else
     {
+        // Worker-only host: no web server
         var builder = Host.CreateDefaultBuilder(args)
             .UseSerilog()
             .ConfigureServices(services =>
             {
                 ConfigureServices(services, config);
                 RegisterDeliveries(services, config);
+                services.AddSingleton<StatusTracker>();
                 services.AddHostedService<DigestWorker>();
             });
 
